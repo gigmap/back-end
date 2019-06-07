@@ -1,6 +1,7 @@
 const makeAsyncMiddleware = require('../../../common/makeAsyncMiddleware');
 const ErrorMessage = require('../../../common/ErrorMessage');
 const mapConcert = require('./mapConcert');
+const mapArtist = require('./mapArtist');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');
@@ -15,13 +16,19 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
     return res.status(404).json(ErrorMessage.prebuilt(userNotFound));
   }
 
-  // const ApiStub = require('./ApiStub');
+  // const ApiStub = require('./ResultApiStub-Snake');
   // setTimeout(() => res.status(200).json(ApiStub), 2000);
   // return;
 
   // todo: should be some job pool so request rate isn't insane
+
+  /** @type {MappedArtist[]} */
   const filteredArtists = [];
+
+  /** @type {Map<number, MappedConcert>} */
   const concertsById = new Map();
+
+  /** @type {Set<string>} */
   const countries = new Set();
 
   await Promise.all(artists.map(async (artist) => {
@@ -30,29 +37,26 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
       return;
     }
 
-    filteredArtists.push(artist);
+    const mappedArtist = mapArtist(artist);
+    filteredArtists.push(mappedArtist);
     concerts.forEach(it => {
       if (concertsById.has(it.id)) {
-        // immutable ?
-        const concert = concertsById.get(it.id);
-        concert.relatedArtistNames.push(artist.displayName);
-        return;
+        return concertsById.get(it.id).members.push(mappedArtist);
       }
 
-
       const mappedEvent = mapConcert(it);
-      mappedEvent.relatedArtistNames.push(artist.displayName);
+      mappedEvent.members.push(mappedArtist);
       concertsById.set(it.id, mappedEvent);
       countries.add(mappedEvent.location.country);
     });
   }));
 
-  // todo: members can be filtered down to related artists
-
   res.status(200).json({
     countries: Array.from(countries).sort(),
-    artists: filteredArtists.sort(),
+    artists: filteredArtists
+      .sort((a, b) => a.displayName > b.displayName ? 1 : -1),
     concerts: Array.from(concertsById.values())
+      .sort((a, b) => a.start > b.start ? 1 : -1)
   });
 });
 

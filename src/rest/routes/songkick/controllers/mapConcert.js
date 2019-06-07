@@ -1,21 +1,36 @@
 /**
- * @param {Object} location
+ * @param {ConcertLocation} location
  * @return {string}
  */
 const extractCountry = (location) => {
-  return location.city.split(', ').pop()
+  return location.city.split(', ').pop();
 };
 
+/**
+ * @param {ConcertLocation} location
+ * @return {MappedLocation}
+ */
+const mapLocation = (location) => {
+  return {
+    ...location,
+    city: extractCountry(location)
+  };
+};
+
+/**
+ * @param {Concert} concert
+ * @return {MappedConcert}
+ */
 const mapConcert = concert => {
-  const {id, displayName, uri, location} = concert;
-  const result = {id, displayName, uri, location};
-
-  result.start = concert.start.date;
-  result.members = concert.performance.map(it => it.artist.id);
-  result.location.country = extractCountry(result.location);
-  result.relatedArtistNames = [];
-
-  return result;
+  const {id, displayName, uri, location, start} = concert;
+  return {
+    id,
+    displayName,
+    uri,
+    location: mapLocation(location),
+    start: start.date,
+    members: []
+  };
 };
 
 module.exports = mapConcert;

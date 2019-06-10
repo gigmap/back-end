@@ -13,7 +13,7 @@ const extractCountry = (location) => {
 const mapLocation = (location) => {
   return {
     ...location,
-    city: extractCountry(location)
+    country: extractCountry(location)
   };
 };
 

@@ -2,6 +2,7 @@ const makeAsyncMiddleware = require('../../../common/makeAsyncMiddleware');
 const ErrorMessage = require('../../../common/ErrorMessage');
 const mapConcert = require('./mapConcert');
 const mapArtist = require('./mapArtist');
+const mapCountry = require('./mapCountry');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');
@@ -52,7 +53,7 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
   }));
 
   res.status(200).json({
-    countries: Array.from(countries).sort(),
+    countries: Array.from(countries).sort().map(mapCountry),
     artists: filteredArtists
       .sort((a, b) => a.displayName > b.displayName ? 1 : -1),
     concerts: Array.from(concertsById.values())

@@ -1,4 +1,7 @@
-const REQUIRED_ENV = ['SONGKICK_API_KEY', 'GOOGLE_API_KEY'];
+const REQUIRED_ENV = ['SONGKICK_API_KEY'];
+
+const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
+const TEST_VALUE = 'test';
 
 const createConfig = (isProduction) => {
   if (isProduction) {
@@ -9,13 +12,15 @@ const createConfig = (isProduction) => {
     }
   }
 
+  const {
+    SONGKICK_BASE_URL,
+    SONGKICK_API_KEY
+  } = process.env;
+
   return Object.freeze({
     songkick: {
-      baseUrl: 'https://api.songkick.com/api/3.0',
-      apiKey: process.env.SONGKICK_API_KEY || 'test',
-    },
-    google: {
-      apiKey: process.env.GOOGLE_API_KEY || 'test',
+      baseUrl: SONGKICK_BASE_URL || DEFAULT_SONGKICK_BASE_URL,
+      apiKey: SONGKICK_API_KEY || TEST_VALUE
     }
   });
 };

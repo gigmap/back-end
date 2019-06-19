@@ -5,9 +5,12 @@
   "main": "bin/index.js",
   "scripts": {
     "start": "node bin/index.js",
-    "dev": "NODE_ENV=development pm2 start bin/index.js --watch --no-daemon",
+    "dev": "NODE_ENV=development pm2 start bin/index.js --watch --no-daemon --node-args=\"-r dotenv/config\"",
+    "test": "NODE_ENV=test nyc mocha",
+    "coverage": "npm test && nyc report --reporter=text",
+    "coverage-ci": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint ./",
-    "preversion": "npm run lint"
+    "preversion": "npm run lint && npm test"
   },
   "private": true,
   "author": {
@@ -15,14 +18,25 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.7",
     "@types/pino": "^5.8.8",
+    "@types/sinon": "^7.0.13",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
-    "pm2": "^3.5.1"
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "pm2": "^3.5.1",
+    "sinon": "^7.3.2"
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",
     "express-validator": "^5.3.1",

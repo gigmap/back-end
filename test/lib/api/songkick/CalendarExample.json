@@ -1,0 +1,241 @@
+{
+  "resultsPage": {
+    "status": "ok",
+    "results": {
+      "event": [
+        {
+          "id": 38125534,
+          "displayName": "Copenhell 2019",
+          "type": "Festival",
+          "uri": "http://www.songkick.com/festivals/49231-copenhell/id/38125534-copenhell-2019?utm_source=55872&utm_medium=partner",
+          "status": "ok",
+          "popularity": 0.002157,
+          "start": {
+            "date": "2019-06-19",
+            "datetime": null,
+            "time": null
+          },
+          "performance": [
+            {
+              "id": 72363069,
+              "displayName": "1000mods",
+              "billing": "headline",
+              "billingIndex": 1,
+              "artist": {
+                "id": 357052,
+                "displayName": "1000mods",
+                "uri": "http://www.songkick.com/artists/357052-1000mods?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "e24255dd-f024-4abd-8ca5-9e14a8a85580",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580.json"
+                  }
+                ]
+              }
+            }
+          ],
+          "ageRestriction": null,
+          "flaggedAsEnded": false,
+          "venue": {
+            "id": null,
+            "displayName": "Unknown venue",
+            "uri": null,
+            "metroArea": {
+              "displayName": "Copenhagen",
+              "country": {
+                "displayName": "Denmark"
+              },
+              "id": 28617,
+              "uri": "http://www.songkick.com/metro_areas/28617-denmark-copenhagen?utm_source=55872&utm_medium=partner"
+            },
+            "lat": 55.6761,
+            "lng": 12.56834
+          },
+          "location": {
+            "city": "Copenhagen, Denmark",
+            "lat": 55.6761,
+            "lng": 12.56834
+          },
+          "end": {
+            "date": "2019-06-22",
+            "time": null,
+            "datetime": null
+          },
+          "series": {
+            "displayName": "Copenhell"
+          }
+        },
+        {
+          "id": 37970739,
+          "displayName": "1000mods at Knust (June 20, 2019)",
+          "type": "Concert",
+          "uri": "http://www.songkick.com/concerts/37970739-1000mods-at-knust?utm_source=55872&utm_medium=partner",
+          "status": "ok",
+          "popularity": 0.002138,
+          "start": {
+            "date": "2019-06-20",
+            "datetime": "2019-06-20T21:00:00+0200",
+            "time": "21:00:00"
+          },
+          "performance": [
+            {
+              "id": 72093999,
+              "displayName": "1000mods",
+              "billing": "headline",
+              "billingIndex": 1,
+              "artist": {
+                "id": 357052,
+                "displayName": "1000mods",
+                "uri": "http://www.songkick.com/artists/357052-1000mods?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "e24255dd-f024-4abd-8ca5-9e14a8a85580",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580.json"
+                  }
+                ]
+              }
+            }
+          ],
+          "ageRestriction": null,
+          "flaggedAsEnded": false,
+          "venue": {
+            "id": 32860,
+            "displayName": "Knust",
+            "uri": "http://www.songkick.com/venues/32860-knust?utm_source=55872&utm_medium=partner",
+            "metroArea": {
+              "displayName": "Hamburg",
+              "country": {
+                "displayName": "Germany"
+              },
+              "id": 28498,
+              "uri": "http://www.songkick.com/metro_areas/28498-germany-hamburg?utm_source=55872&utm_medium=partner"
+            },
+            "lat": 53.5583,
+            "lng": 9.96765
+          },
+          "location": {
+            "city": "Hamburg, Germany",
+            "lat": 53.5583,
+            "lng": 9.96765
+          }
+        },
+        {
+          "id": 36547934,
+          "displayName": "Neuborn Open Air Festival 2019",
+          "type": "Festival",
+          "uri": "http://www.songkick.com/festivals/1478898-neuborn-open-air/id/36547934-neuborn-open-air-festival-2019?utm_source=55872&utm_medium=partner",
+          "status": "ok",
+          "popularity": 0.025608,
+          "start": {
+            "date": "2019-08-23",
+            "datetime": null,
+            "time": null
+          },
+          "performance": [
+            {
+              "id": 73123894,
+              "displayName": "Hatebreed",
+              "billing": "headline",
+              "billingIndex": 1,
+              "artist": {
+                "id": 238833,
+                "displayName": "Hatebreed",
+                "uri": "http://www.songkick.com/artists/238833-hatebreed?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "40b7efb7-1268-4a80-b354-600afdcbe9e2",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:40b7efb7-1268-4a80-b354-600afdcbe9e2.json"
+                  }
+                ]
+              }
+            },
+            {
+              "id": 69645679,
+              "displayName": "Amorphis",
+              "billing": "headline",
+              "billingIndex": 2,
+              "artist": {
+                "id": 295968,
+                "displayName": "Amorphis",
+                "uri": "http://www.songkick.com/artists/295968-amorphis?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "efaefde1-e09b-4d49-9d8e-b1304d2ece8d",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:efaefde1-e09b-4d49-9d8e-b1304d2ece8d.json"
+                  }
+                ]
+              }
+            },
+            {
+              "id": 73123899,
+              "displayName": "1000mods",
+              "billing": "headline",
+              "billingIndex": 3,
+              "artist": {
+                "id": 357052,
+                "displayName": "1000mods",
+                "uri": "http://www.songkick.com/artists/357052-1000mods?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "e24255dd-f024-4abd-8ca5-9e14a8a85580",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580.json"
+                  }
+                ]
+              }
+            },
+            {
+              "id": 73123889,
+              "displayName": "Motorowl",
+              "billing": "headline",
+              "billingIndex": 4,
+              "artist": {
+                "id": 8323703,
+                "displayName": "Motorowl",
+                "uri": "http://www.songkick.com/artists/8323703-motorowl?utm_source=55872&utm_medium=partner",
+                "identifier": [
+                  {
+                    "mbid": "157f11c7-d1a2-4fb0-b2c7-b440258dcd2a",
+                    "href": "http://api.songkick.com/api/3.0/artists/mbid:157f11c7-d1a2-4fb0-b2c7-b440258dcd2a.json"
+                  }
+                ]
+              }
+            }
+          ],
+          "ageRestriction": null,
+          "flaggedAsEnded": false,
+          "venue": {
+            "id": 3383784,
+            "displayName": "Neuborn Open Air Festival (NOAF)",
+            "uri": "http://www.songkick.com/venues/3383784-neuborn-open-air-festival?utm_source=55872&utm_medium=partner",
+            "metroArea": {
+              "displayName": "Alzey",
+              "country": {
+                "displayName": "Germany"
+              },
+              "id": 34461,
+              "uri": "http://www.songkick.com/metro_areas/34461-germany-alzey?utm_source=55872&utm_medium=partner"
+            },
+            "lat": 49.84236,
+            "lng": 8.11606
+          },
+          "location": {
+            "city": "Wörrstadt, Germany",
+            "lat": 49.84236,
+            "lng": 8.11606
+          },
+          "end": {
+            "date": "2019-08-24",
+            "time": null,
+            "datetime": null
+          },
+          "series": {
+            "displayName": "Neuborn Open Air Festival"
+          }
+        }
+      ]
+    },
+    "perPage": 50,
+    "page": 1,
+    "totalEntries": 3
+  }
+}

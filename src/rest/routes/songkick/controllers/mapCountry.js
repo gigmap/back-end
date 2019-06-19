@@ -1,10 +1,10 @@
 /**
- * @param {string} it
+ * @param {string} name
  * @return {{displayName: string, id: string}}
  */
-const mapCountry = (it) => ({
-  id: it,
-  displayName: it
+const mapCountry = (name) => ({
+  id: name,
+  displayName: name
 });
 
 module.exports = mapCountry;

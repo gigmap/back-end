@@ -1,0 +1,9 @@
+{
+  "all": true,
+  "include": "src",
+  "exclude": ["**/router.js", "bin/index.js", "src/createApp.js",
+              "src/helpers/createLogger.js", "src/helpers/EnvHelper.js"],
+  "reporter": [
+    "text-summary"
+  ]
+}

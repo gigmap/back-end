@@ -3,8 +3,7 @@ const EnvHelper = require('./EnvHelper');
 
 const BASIC_OPTIONS = Object.freeze({
   useLevelLabels: true,
-  level: EnvHelper.isProduction ? 'info' : 'debug',
-  redact: ['req.headers["access-token"]', 'req.headers["x-signature"]', 'req.headers["x-auth-client"]']
+  level: EnvHelper.isProduction ? 'info' : 'debug'
 });
 
 /**
@@ -12,7 +11,7 @@ const BASIC_OPTIONS = Object.freeze({
  * @return {P.Logger}
  */
 const createLogger = (module) => {
-  if(EnvHelper.isTesting) {
+  if (EnvHelper.isTesting) {
     return pino({enabled: false});
   }
 
@@ -21,7 +20,7 @@ const createLogger = (module) => {
     base: {module}
   };
 
-  if(EnvHelper.isProduction) {
+  if (EnvHelper.isProduction) {
     return pino(options);
   }
 

@@ -1,14 +1,14 @@
-const handleExpressValidation = require('./handleExpressValidation');
+const expressValidationHandler = require('./expressValidationHandler');
 
 const addExpressValidation = (validators) => {
   if (Array.isArray(validators)) {
     return [
       ...validators,
-      handleExpressValidation()
+      expressValidationHandler
     ];
   }
 
-  return [validators, handleExpressValidation()];
+  return [validators, expressValidationHandler];
 };
 
 module.exports = addExpressValidation;

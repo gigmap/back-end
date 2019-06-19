@@ -17,6 +17,8 @@ const mapLocation = (location) => {
   };
 };
 
+// TODO: add venue id? get location from venue?
+
 /**
  * @param {Concert} concert
  * @return {MappedConcert}

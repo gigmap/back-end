@@ -4,8 +4,7 @@ const makeResponse = require('./makeResponse');
 const ErrorMessage = require('../common/ErrorMessage');
 const VALIDATION_CODE = 'VALIDATION';
 
-// todo: necessity of standalone factory function (?)
-const handleExpressValidation = () => (req, res, next) => {
+const expressValidationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const message = new ErrorMessage();
@@ -18,4 +17,4 @@ const handleExpressValidation = () => (req, res, next) => {
   next();
 };
 
-module.exports = handleExpressValidation;
+module.exports = expressValidationHandler;

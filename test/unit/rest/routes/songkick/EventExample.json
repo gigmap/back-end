@@ -1,0 +1,62 @@
+{
+  "id": 38125534,
+  "displayName": "Copenhell 2019",
+  "type": "Festival",
+  "uri": "http://www.songkick.com/festivals/49231-copenhell/id/38125534-copenhell-2019?utm_source=55872&utm_medium=partner",
+  "status": "ok",
+  "popularity": 0.002157,
+  "start": {
+    "date": "2019-06-19",
+    "datetime": null,
+    "time": null
+  },
+  "performance": [
+    {
+      "id": 72363069,
+      "displayName": "1000mods",
+      "billing": "headline",
+      "billingIndex": 1,
+      "artist": {
+        "id": 357052,
+        "displayName": "1000mods",
+        "uri": "http://www.songkick.com/artists/357052-1000mods?utm_source=55872&utm_medium=partner",
+        "identifier": [
+          {
+            "mbid": "e24255dd-f024-4abd-8ca5-9e14a8a85580",
+            "href": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580.json"
+          }
+        ]
+      }
+    }
+  ],
+  "ageRestriction": null,
+  "flaggedAsEnded": false,
+  "venue": {
+    "id": null,
+    "displayName": "Unknown venue",
+    "uri": null,
+    "metroArea": {
+      "displayName": "Copenhagen",
+      "country": {
+        "displayName": "Denmark"
+      },
+      "id": 28617,
+      "uri": "http://www.songkick.com/metro_areas/28617-denmark-copenhagen?utm_source=55872&utm_medium=partner"
+    },
+    "lat": 55.6761,
+    "lng": 12.56834
+  },
+  "location": {
+    "city": "Copenhagen, Denmark",
+    "lat": 55.6761,
+    "lng": 12.56834
+  },
+  "end": {
+    "date": "2019-06-22",
+    "time": null,
+    "datetime": null
+  },
+  "series": {
+    "displayName": "Copenhell"
+  }
+}

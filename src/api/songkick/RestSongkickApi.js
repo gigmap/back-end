@@ -1,4 +1,3 @@
-const axios = require('axios');
 const logger = require('../../helpers/createLogger')('RestSongkickApi');
 
 /**
@@ -7,26 +6,10 @@ const logger = require('../../helpers/createLogger')('RestSongkickApi');
 class RestSongkickApi {
 
   /**
-   * @param {SongkickConfig} config
+   * @param {AxiosInstance} client
    */
-  constructor(config) {
-    this.client = axios.create({
-      baseURL: config.baseUrl,
-      responseType: 'json'
-    });
-
-    const defaultRequestParams = {
-      apikey: config.apiKey,
-      per_page: 'all'
-    };
-
-    this.client.interceptors.request.use(config => {
-      config.params = config.params ?
-        {...defaultRequestParams, ...config.params} :
-        {...defaultRequestParams};
-
-      return config;
-    });
+  constructor(client) {
+    /** @private */ this.client = client;
   }
 
   /**

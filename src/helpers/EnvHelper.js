@@ -5,8 +5,8 @@ const CURRENT_ENV = process.env.NODE_ENV;
 
 const isEnv = env => env === CURRENT_ENV;
 
-module.exports = {
+module.exports = Object.freeze({
   isProduction: isEnv(PROD_ENV),
   isDevelopment: isEnv(DEV_ENV),
   isTesting: isEnv(TEST_ENV)
-};
+});

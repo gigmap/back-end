@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const rootRoute = require('./router');
 const EnvHelper = require('./helpers/EnvHelper');
 const ServiceFacade = require('./services/ServiceFacade');
@@ -25,9 +26,11 @@ function createApp() {
 
   // app middleware
   app.use(helmet());
-  // app.use(express.json());
+  app.use(cors(EnvHelper.isProduction ? {
+    origin: app.locals.config.gigmap.frontendOrigin
+  } : {}));
+
   if (EnvHelper.isDevelopment) {
-    app.use(require('cors')());
     app.use(expressPino);
   }
 

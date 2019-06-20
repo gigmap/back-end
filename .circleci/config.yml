@@ -13,13 +13,20 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker build --build-arg SONGKICK_API_KEY=${SONGKICK_API_KEY} -t ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest .
+      - run: >-
+          docker build
+          --build-arg SONGKICK_API_KEY=${SONGKICK_API_KEY}
+          --build-arg FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
+          -t ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest .
       - run: docker login -u ${DOCKER_USER} --password ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}
       - run: docker push ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest
   deploy:
       machine: true
       steps:
-        - run: ssh ${DEPLOY_USER}@${DEPLOY_HOST} "docker pull ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest && docker service update --force gigmap-api"
+        - run: >-
+            ssh ${DEPLOY_USER}@${DEPLOY_HOST}
+            "docker pull ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest
+            && docker service update --force gigmap-api"
 
 workflows:
   version: 2

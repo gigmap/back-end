@@ -27,9 +27,11 @@ workflows:
     jobs:
       - test
       - build:
+          context: GigMap
           requires:
             - test
       - deploy:
+          context: GigMap
           requires:
             - build
           filters:

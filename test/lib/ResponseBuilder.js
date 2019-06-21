@@ -1,5 +1,6 @@
 const sinon = require('sinon');
 const cloneDeep = require('lodash/cloneDeep');
+const defaultsDeep = require('lodash/defaultsDeep');
 
 const checkAnswer = (status, json, expectedStatus, expectedBody) => {
   sinon.assert.calledOnce(status);
@@ -24,12 +25,21 @@ class ResponseBuilder {
   }
 
   /**
+   * @param {Object} newProps
+   * @return {ResponseBuilder}
+   * @private
+   */
+  _update(newProps) {
+    return new ResponseBuilder(
+      defaultsDeep(cloneDeep(this.data), newProps));
+  }
+
+  /**
    * @param locals
    * @return {ResponseBuilder}
    */
   withLocals(locals) {
-    this.data.locals = {...this.data.locals, ...locals};
-    return this;
+    return this._update({locals});
   }
 
   /**
@@ -37,32 +47,41 @@ class ResponseBuilder {
    * @return {ResponseBuilder}
    */
   withConfig(config) {
-    this.data.app.locals.config = {
-      ...this.data.app.locals.config,
-      ...config
-    };
-    return this;
+    return this._update({app: {locals: {config}}});
   }
 
-  build(services) {
-    const json = sinon.spy();
-    const status = sinon.stub().returns({json, send: Function()});
+  /**
+   * @param services
+   * @return {ResponseBuilder}
+   */
+  withServices(services) {
+    return this._update({app: {locals: {services}}});
+  }
 
-    const result = {
+  /**
+   * @return {Object}
+   */
+  build() {
+    let complete;
+    const completePromise = new Promise(resolve => complete = resolve);
+
+    const json = sinon.spy();
+    const status = sinon.stub().returns({
+      json: (...args) => {
+        complete();
+        json(...args);
+      }
+    });
+
+    return {
       ...cloneDeep(this.data),
       status,
       __stubs: {
-        json, status,
+        completePromise,
         checkAnswer: (expectedStatus, body) =>
           checkAnswer(status, json, expectedStatus, body)
       }
     };
-
-    if (services) {
-      result.app.locals.services = services;
-    }
-
-    return result;
   }
 
   /**

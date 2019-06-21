@@ -1,0 +1,40 @@
+{
+  "resultsPage": {
+    "status": "ok",
+    "results": {
+      "artist": [
+        {
+          "id": 357052,
+          "displayName": "1000mods",
+          "uri": "http://www.songkick.com/artists/357052-1000mods?utm_source=55872&utm_medium=partner",
+          "identifier": [
+            {
+              "mbid": "e24255dd-f024-4abd-8ca5-9e14a8a85580",
+              "href": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580.json",
+              "eventsHref": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580/calendar.json",
+              "setlistsHref": "http://api.songkick.com/api/3.0/artists/mbid:e24255dd-f024-4abd-8ca5-9e14a8a85580/setlists.json"
+            }
+          ],
+          "onTourUntil": "2019-08-23"
+        },
+        {
+          "id": 4292566,
+          "displayName": "The Bones of J.R. Jones",
+          "uri": "http://www.songkick.com/artists/4292566-bones-of-jr-jones?utm_source=55872&utm_medium=partner",
+          "identifier": [
+            {
+              "mbid": "5b1f07ae-6d02-4a70-b4ec-7853241e695e",
+              "href": "http://api.songkick.com/api/3.0/artists/mbid:5b1f07ae-6d02-4a70-b4ec-7853241e695e.json",
+              "eventsHref": "http://api.songkick.com/api/3.0/artists/mbid:5b1f07ae-6d02-4a70-b4ec-7853241e695e/calendar.json",
+              "setlistsHref": "http://api.songkick.com/api/3.0/artists/mbid:5b1f07ae-6d02-4a70-b4ec-7853241e695e/setlists.json"
+            }
+          ],
+          "onTourUntil": "2019-07-31"
+        }
+      ]
+    },
+    "perPage": 2,
+    "page": 1,
+    "totalEntries": 2
+  }
+}

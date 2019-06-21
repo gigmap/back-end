@@ -3,7 +3,7 @@ const {describe, it} = require('mocha');
 const mapConcert =
   require('../../../../../src/rest/routes/songkick/controllers/mapConcert');
 
-const SAMPLE_CONCERT = require('./EventExample');
+const SAMPLE_CONCERT = require('./fixtures/EventExample');
 
 describe('mapConcert', function () {
 

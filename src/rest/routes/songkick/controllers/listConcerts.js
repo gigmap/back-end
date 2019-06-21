@@ -17,10 +17,6 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
     return res.status(404).json(ErrorMessage.prebuilt(userNotFound));
   }
 
-  // const ApiStub = require('./ResultApiStub-Snake');
-  // setTimeout(() => res.status(200).json(ApiStub), 2000);
-  // return;
-
   // todo: should be some job pool so request rate isn't insane
 
   /** @type {MappedArtist[]} */

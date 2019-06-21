@@ -51,6 +51,10 @@ class RestSongkickApi {
       });
   }
 
+  /**
+   * @param {string} username
+   * @return {Promise<number | null>}
+   */
   async countArtists(username) {
     const data = await this._requestArtists(username, {
       params: {
@@ -62,6 +66,10 @@ class RestSongkickApi {
     return data ? data.totalEntries : null;
   }
 
+  /**
+   * @param {string} username
+   * @return {Promise<Artist[] | null>}
+   */
   async listArtists(username) {
     const data = await this._requestArtists(username, {
       params: {
@@ -69,16 +77,28 @@ class RestSongkickApi {
       }
     });
 
-    return data ? data.results.artist : null;
+    // user not found
+    if (!data) {
+      return null;
+    }
+
+    const {totalEntries, results} = data;
+    return totalEntries === 0 ? [] : results.artist;
   }
 
+  /**
+   * @param {number} artistsId
+   * @param [from]
+   * @param [to]
+   * @return {Promise<Concert[]>}
+   */
   async listConcerts(artistsId, from, to) {
     const data = await this._requestConcerts(artistsId);
     if (data.totalEntries === 0) {
       return [];
     }
 
-    return  data.results.event;
+    return data.results.event;
   }
 }
 

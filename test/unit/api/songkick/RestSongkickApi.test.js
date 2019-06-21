@@ -4,9 +4,9 @@ const {describe, it} = require('mocha');
 const ClientStub = require('../../../lib/api/songkick/AxiosStub');
 const RestSongkickApi = require('../../../../src/api/songkick/RestSongkickApi');
 
-const TRACKED_ARTISTS_EXAMPLE = require('../../../lib/api/songkick/TrackedArtistsExample');
-const EMPTY_CALENDAR_EXAMPLE = require('../../../lib/api/songkick/EmptyCalendarExample');
-const CALENDAR_EXAMPLE = require('../../../lib/api/songkick/CalendarExample');
+const TRACKED_ARTISTS_EXAMPLE = require('../../rest/routes/songkick/fixtures/TrackedArtistsExample');
+const EMPTY_CALENDAR_EXAMPLE = require('../../rest/routes/songkick/fixtures/EmptyCalendarExample');
+const CALENDAR_EXAMPLE = require('../../rest/routes/songkick/fixtures/CalendarExample');
 const USER = 'user';
 const ARTIST_ID = 123;
 

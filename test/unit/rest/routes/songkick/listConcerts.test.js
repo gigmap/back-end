@@ -131,7 +131,7 @@ describe('listConcerts', function () {
           displayName: 'The Bones of J.R. Jones at Club (June 21, 2019)',
           uri: 'http://www.songkick.com/concerts/333',
           location: {
-            city: "Hamburg, Germany",
+            city: 'Hamburg, Germany',
             lat: 53.5583,
             lng: 9.96765,
             country: 'Germany'

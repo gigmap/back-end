@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {describe, it} = require('mocha');
 const mapArtist =
-  require('../../../../../src/rest/routes/songkick/controllers/mapArtist');
+  require('../../../../../src/rest/routes/songkick/controllers/mappers/mapArtist');
 
 const SAMPLE_ARTIST = {
   id: 123,

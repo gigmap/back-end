@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {describe, it} = require('mocha');
 const mapCountry =
-  require('../../../../../src/rest/routes/songkick/controllers/mapCountry');
+  require('../../../../../src/rest/routes/songkick/controllers/mappers/mapCountry');
 
 describe('mapCountry', function () {
 

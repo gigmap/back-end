@@ -1,8 +1,8 @@
 const makeAsyncMiddleware = require('../../../common/makeAsyncMiddleware');
 const ErrorMessage = require('../../../common/ErrorMessage');
-const mapConcert = require('./mapConcert');
-const mapArtist = require('./mapArtist');
-const mapCountry = require('./mapCountry');
+const mapConcert = require('./mappers/mapConcert');
+const mapArtist = require('./mappers/mapArtist');
+const mapCountry = require('./mappers/mapCountry');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');

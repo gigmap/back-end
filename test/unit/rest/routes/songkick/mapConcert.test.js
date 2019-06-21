@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {describe, it} = require('mocha');
 const mapConcert =
-  require('../../../../../src/rest/routes/songkick/controllers/mapConcert');
+  require('../../../../../src/rest/routes/songkick/controllers/mappers/mapConcert');
 
 const SAMPLE_CONCERT = require('./fixtures/EventExample');
 

@@ -5,5 +5,5 @@ export default interface SongkickApi {
 
     countArtists(username: string): Promise<number | null>;
 
-    listConcerts(artistsId: number, from?: Date, to?: Date): Promise<Array<Concert>>;
+    listConcerts(artistsId: number, from?: string, to?: string): Promise<Array<Concert>>;
 }

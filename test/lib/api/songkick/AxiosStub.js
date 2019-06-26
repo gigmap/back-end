@@ -1,3 +1,5 @@
+const sinon = require('sinon');
+
 /**
  * @param {*|Map<string, *>} result
  * @return {Object}
@@ -18,6 +20,14 @@ const create = (result) => ({
   }
 });
 
+const createStubbed = (data) => {
+  const get = sinon.stub().resolves({data});
+
+  return {
+    get
+  };
+};
+
 // noinspection JSValidateTypes
 module.exports = Object.freeze({
   /**
@@ -36,5 +46,11 @@ module.exports = Object.freeze({
    * @return {AxiosInstance}
    */
   withData: (data) => create(
-    data instanceof Map ? data : Promise.resolve({data}))
+    data instanceof Map ? data : Promise.resolve({data})),
+
+  /**
+   * @param {Object} data
+   * @return {AxiosInstance}
+   */
+  withStubs: (data) => createStubbed(data)
 });

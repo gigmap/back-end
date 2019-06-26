@@ -1,6 +1,6 @@
 const {expect} = require('chai');
 const {describe, it} = require('mocha');
-
+const sinon = require('sinon');
 const ClientStub = require('../../../lib/api/songkick/AxiosStub');
 const RestSongkickApi = require('../../../../src/api/songkick/RestSongkickApi');
 
@@ -64,13 +64,25 @@ describe('RestSongkickApi', function () {
 
     it('should return empty array if there are no concerts', async function () {
       const api = new RestSongkickApi(ClientStub.withData(EMPTY_CALENDAR_EXAMPLE));
-      expect(await api.listConcerts(USER)).to.be.deep.equal([]);
+      expect(await api.listConcerts(ARTIST_ID)).to.be.deep.equal([]);
     });
 
     it('should return artist concerts', async function () {
       const api = new RestSongkickApi(ClientStub.withData(CALENDAR_EXAMPLE));
-      expect(await api.listConcerts(USER))
+      expect(await api.listConcerts(ARTIST_ID))
         .to.be.deep.equal([...CALENDAR_EXAMPLE.resultsPage.results.event]);
+    });
+
+    it('should use dated as parameters', async function () {
+      const client = ClientStub.withStubs(EMPTY_CALENDAR_EXAMPLE);
+      const api = new RestSongkickApi(client);
+
+      await api.listConcerts(ARTIST_ID, '2019-02-06', '2019-02-10');
+
+      sinon.assert.calledOnce(client.get);
+      sinon.assert.calledWithExactly(client.get,
+        `/artists/${ARTIST_ID}/calendar.json`,
+        {params: {min_date: '2019-02-06', max_date: '2019-02-10'}});
     });
   });
 });

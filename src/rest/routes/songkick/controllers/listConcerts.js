@@ -3,15 +3,21 @@ const ErrorMessage = require('../../../common/ErrorMessage');
 const mapConcert = require('./mappers/mapConcert');
 const mapArtist = require('./mappers/mapArtist');
 const mapCountry = require('./mappers/mapCountry');
+const checkTimeInterval = require('../validation/checkTimeInterval');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');
 
 const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
-  const {services} = res.app.locals;
-  const {username} = res.locals.input;
-  const songkickApi = services.getSongkickApi();
+  const {services, config} = res.app.locals;
+  const {username, from, to} = res.locals.input;
 
+  const checkResult = checkTimeInterval(from, to, config.gigmap.maxTimePeriodDays);
+  if (!checkResult.valid) {
+    return res.status(400).json(ErrorMessage.prebuilt(checkResult.error));
+  }
+
+  const songkickApi = services.getSongkickApi();
   const artists = await songkickApi.listArtists(username);
   if (artists === null) {
     return res.status(404).json(ErrorMessage.prebuilt(userNotFound));
@@ -29,7 +35,7 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
   const countries = new Set();
 
   await Promise.all(artists.map(async (artist) => {
-    const concerts = await songkickApi.listConcerts(artist.id);
+    const concerts = await songkickApi.listConcerts(artist.id, from, to);
     if (concerts.length === 0) {
       return;
     }

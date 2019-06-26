@@ -3,6 +3,7 @@ const listConcerts = require('./controllers/listConcerts');
 const countArtists = require('./controllers/countArtists');
 const addExpressValidation = require('../../middleware/addExpressValidation');
 const nameValidator = require('./validation/nameValidator');
+const dateValidator = require('./validation/dateValidator');
 
 const router = new Router();
 
@@ -11,7 +12,7 @@ router.get('/artists/count',
   countArtists());
 
 router.get('/concerts/list',
-  addExpressValidation(nameValidator),
+  addExpressValidation([nameValidator, dateValidator]),
   listConcerts());
 
 module.exports = router;

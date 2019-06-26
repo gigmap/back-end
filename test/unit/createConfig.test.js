@@ -5,10 +5,11 @@ const createConfig = require('../../src/createConfig');
 
 const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
 const TEST_VALUE = 'test';
+const DEFAULT_DAYS = 90;
 
 const expectConfig =
   (baseUrl = DEFAULT_SONGKICK_BASE_URL, apiKey = TEST_VALUE, frontendOrigin = '') => ({
-    gigmap: {frontendOrigin},
+    gigmap: {frontendOrigin, maxTimePeriodDays: DEFAULT_DAYS},
     songkick: {baseUrl, apiKey}
   });
 
@@ -48,12 +49,23 @@ describe('createConfig', function () {
       expect(createConfig()).to.be.deep.equal(expectConfig('some-url', 'some-key'));
     });
 
-    it('should use front-end origin from env', function () {
+    it('should use all variables from env', function () {
       process.env.SONGKICK_BASE_URL = 'some-url';
       process.env.SONGKICK_API_KEY = 'some-key';
       process.env.FRONTEND_ORIGIN = 'https://some.com';
-      expect(createConfig()).to.be.deep.equal(
-        expectConfig('some-url', 'some-key', 'https://some.com'));
+      process.env.MAX_TIME_PERIOD = 33;
+
+
+      expect(createConfig()).to.be.deep.equal({
+        gigmap: {
+          frontendOrigin: 'https://some.com',
+          maxTimePeriodDays: 33
+        },
+        songkick: {
+          baseUrl: 'some-url',
+          apiKey: 'some-key'
+        }
+      });
     });
   });
 

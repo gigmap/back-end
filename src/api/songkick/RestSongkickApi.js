@@ -88,12 +88,20 @@ class RestSongkickApi {
 
   /**
    * @param {number} artistsId
-   * @param [from]
-   * @param [to]
+   * @param {string} [from]
+   * @param {string} [to]
    * @return {Promise<Concert[]>}
    */
   async listConcerts(artistsId, from, to) {
-    const data = await this._requestConcerts(artistsId);
+    const config = {};
+    if (from && to) {
+      config.params = {
+        min_date: from,
+        max_date: to
+      };
+    }
+
+    const data = await this._requestConcerts(artistsId, config);
     if (data.totalEntries === 0) {
       return [];
     }

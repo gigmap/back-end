@@ -31,7 +31,7 @@ class ResponseBuilder {
    */
   _update(newProps) {
     return new ResponseBuilder(
-      defaultsDeep(cloneDeep(this.data), newProps));
+      defaultsDeep({}, newProps, cloneDeep(this.data)));
   }
 
   /**

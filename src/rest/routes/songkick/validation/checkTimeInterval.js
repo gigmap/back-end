@@ -19,6 +19,10 @@ const checkTimeInterval = (from, to, maxDays) => {
     return {valid: false, error: invalidTimeInterval};
   }
 
+  if (maxDays < 0) {
+    return {valid: true};
+  }
+
   const diff = toTimestamp - fromTimestamp;
   const daysDiff = diff / DIVIDER;
 

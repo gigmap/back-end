@@ -5,7 +5,7 @@ const createConfig = require('../../src/createConfig');
 
 const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
 const TEST_VALUE = 'test';
-const DEFAULT_DAYS = 90;
+const DEFAULT_DAYS = -1;
 
 const expectConfig =
   (baseUrl = DEFAULT_SONGKICK_BASE_URL, apiKey = TEST_VALUE, frontendOrigin = '') => ({

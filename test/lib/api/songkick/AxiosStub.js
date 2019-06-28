@@ -21,10 +21,8 @@ const create = (result) => ({
 });
 
 const createStubbed = (data) => {
-  const get = sinon.stub().resolves({data});
-
   return {
-    get
+    get: sinon.stub().resolves({data})
   };
 };
 

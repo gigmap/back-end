@@ -26,99 +26,118 @@ describe('listConcerts', function () {
     .withQuery({username: USER});
 
   const res = new ResponseBuilder()
-    .withConfig({gigmap: {maxTimePeriodDays: 90}});
+    .withConfig({gigmap: {maxTimePeriodDays: -1}});
 
   const makeAnswer = (countries, artists, concerts) =>
     ({countries, artists, concerts});
 
   describe('input data validation', () => {
-    it('should send error on absence of username', async function () {
-      const answer = await runRouter(req.withQuery({}), res);
+    describe('checking username', function () {
+      it('should send error on absence of username', async function () {
+        const answer = await runRouter(req.withQuery({}), res);
 
-      expect(answer).to.haveOwnProperty('error');
-      const {status, body: {errors}} = answer.error;
+        expect(answer).to.haveOwnProperty('error');
+        const {status, body: {errors}} = answer.error;
 
-      expect(status).to.be.equal(400);
-      expect(errors).to.be.an('array').lengthOf(2);
-      for (let {code} of errors) {
-        expect(code).to.be.equal('VALIDATION');
-      }
+        expect(status).to.be.equal(400);
+        expect(errors).to.be.an('array').lengthOf(2);
+        for (let {code} of errors) {
+          expect(code).to.be.equal('VALIDATION');
+        }
+      });
+
+      it('should send error on empty username', async function () {
+        const answer = await runRouter(req.withQuery({username: ''}), res);
+
+        expect(answer).to.haveOwnProperty('error');
+        const {status, body: {errors}} = answer.error;
+
+        expect(status).to.be.equal(400);
+        expect(errors).to.be.an('array').lengthOf(1);
+        expect(errors[0].code).to.be.equal('VALIDATION');
+      });
+
+      it('should handle non-existing songkick username', async function () {
+        const result =
+          await runRouter(req, res.withServices(getApiService(404, true)));
+
+        result.__stubs.checkAnswer(404, formatResponseError('SONGKICK_USER_NOT_FOUND'));
+      });
+
     });
 
-    it('should send error on empty username', async function () {
-      const answer = await runRouter(req.withQuery({username: ''}), res);
+    describe('checking dates', function () {
+      it('should send error on having only `from` date', async function () {
+        const answer = await runRouter(
+          req.withQuery({username: USER, from: '2019-01-01'}), res);
 
-      expect(answer).to.haveOwnProperty('error');
-      const {status, body: {errors}} = answer.error;
+        expect(answer).to.haveOwnProperty('error');
+        const {status, body: {errors}} = answer.error;
 
-      expect(status).to.be.equal(400);
-      expect(errors).to.be.an('array').lengthOf(1);
-      expect(errors[0].code).to.be.equal('VALIDATION');
-    });
+        expect(status).to.be.equal(400);
+        expect(errors).to.be.an('array').lengthOf(1);
+        expect(errors[0].code).to.be.equal('VALIDATION');
+      });
 
-    it('should send error on having only `from` date', async function () {
-      const answer = await runRouter(
-        req.withQuery({username: USER, from: '2019-01-01'}), res);
+      it('should send error on having only `to` date', async function () {
+        const answer = await runRouter(
+          req.withQuery({username: USER, to: '2019-01-01'}), res);
 
-      expect(answer).to.haveOwnProperty('error');
-      const {status, body: {errors}} = answer.error;
+        expect(answer).to.haveOwnProperty('error');
+        const {status, body: {errors}} = answer.error;
 
-      expect(status).to.be.equal(400);
-      expect(errors).to.be.an('array').lengthOf(1);
-      expect(errors[0].code).to.be.equal('VALIDATION');
-    });
+        expect(status).to.be.equal(400);
+        expect(errors).to.be.an('array').lengthOf(1);
+        expect(errors[0].code).to.be.equal('VALIDATION');
+      });
 
-    it('should send error on having only `to` date', async function () {
-      const answer = await runRouter(
-        req.withQuery({username: USER, to: '2019-01-01'}), res);
+      it('should send error on incorrect date format', async function () {
+        const answer = await runRouter(
+          req.withQuery({username: USER, from: 'abc', to: '12/12/2019'}), res);
 
-      expect(answer).to.haveOwnProperty('error');
-      const {status, body: {errors}} = answer.error;
+        expect(answer).to.haveOwnProperty('error');
+        const {status, body: {errors}} = answer.error;
 
-      expect(status).to.be.equal(400);
-      expect(errors).to.be.an('array').lengthOf(1);
-      expect(errors[0].code).to.be.equal('VALIDATION');
-    });
+        expect(status).to.be.equal(400);
+        expect(errors).to.be.an('array').lengthOf(2);
+        expect(errors[0].code).to.be.equal('VALIDATION');
+      });
 
-    it('should send error on incorrect date format', async function () {
-      const answer = await runRouter(
-        req.withQuery({username: USER, from: 'abc', to: '12/12/2019'}), res);
+      it('should return error if `to` if before `from`', async () => {
+        const answer = await runRouter(
+          req.withQuery({
+            username: USER,
+            from: '2019-05-06',
+            to: '2019-05-02'
+          }), res);
 
-      expect(answer).to.haveOwnProperty('error');
-      const {status, body: {errors}} = answer.error;
+        answer.__stubs.checkAnswer(400, formatResponseError('INVALID_TIME_INTERVAL'));
+      });
 
-      expect(status).to.be.equal(400);
-      expect(errors).to.be.an('array').lengthOf(2);
-      expect(errors[0].code).to.be.equal('VALIDATION');
-    });
+      it('should return error if time interval is longer than allowed', async () => {
+        const answer = await runRouter(
+          req.withQuery({
+            username: USER,
+            from: '2019-05-06',
+            to: '2019-05-10'
+          }), res.withConfig({gigmap: {maxTimePeriodDays: 2}}));
 
-    it('should return error if `to` if before `from`', async () => {
-      const answer = await runRouter(
-        req.withQuery({
-          username: USER,
-          from: '2019-05-06',
-          to: '2019-05-02'
-        }), res);
+        answer.__stubs.checkAnswer(400, formatResponseError('TIME_INTERVAL_TOO_LONG'));
+      });
 
-      answer.__stubs.checkAnswer(400, formatResponseError('INVALID_TIME_INTERVAL'));
-    });
+      it('should accept valid time interval', async () => {
+        const answer = await runRouter(
+          req.withQuery({
+            username: USER,
+            from: '2019-05-06',
+            to: '2019-05-10'
+          }),
+          res.withConfig({gigmap: {maxTimePeriodDays: 10}})
+            .withServices(getApiService(NoTrackedArtistsExample))
+        );
 
-    it('should return error if time interval is longer than allowed', async () => {
-      const answer = await runRouter(
-        req.withQuery({
-          username: USER,
-          from: '2019-05-06',
-          to: '2019-05-10'
-        }), res.withConfig({gigmap: {maxTimePeriodDays: 2}}));
-
-      answer.__stubs.checkAnswer(400, formatResponseError('TIME_INTERVAL_TOO_LONG'));
-    });
-
-    it('should handle non-existing songkick username', async function () {
-      const result =
-        await runRouter(req, res.withServices(getApiService(404, true)));
-
-      result.__stubs.checkAnswer(404, formatResponseError('SONGKICK_USER_NOT_FOUND'));
+        answer.__stubs.checkAnswer(200, makeAnswer([], [], []));
+      });
     });
 
     it('should send error on songkick system error', async function () {

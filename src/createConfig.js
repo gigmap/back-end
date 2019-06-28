@@ -2,7 +2,7 @@ const REQUIRED_ENV = ['SONGKICK_API_KEY', 'FRONTEND_ORIGIN'];
 
 const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
 const TEST_VALUE = 'test';
-const DEFAULT_PERIOD_DAYS = 90;
+const DEFAULT_PERIOD_DAYS = -1;
 
 const createConfig = (isProduction) => {
   if (isProduction) {

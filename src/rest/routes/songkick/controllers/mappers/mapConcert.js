@@ -1,4 +1,5 @@
 const extractLocation = require('./extractLocation');
+const stripDateFromName = require('./stripDateFromName');
 
 /**
  * @param {Concert} concert
@@ -8,7 +9,7 @@ const mapConcert = concert => {
   const {id, displayName, uri, start} = concert;
   return {
     id,
-    displayName,
+    displayName: stripDateFromName(displayName),
     uri,
     location: extractLocation(concert),
     start: start.date,

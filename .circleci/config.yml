@@ -18,6 +18,7 @@ jobs:
           docker build
           --build-arg SONGKICK_API_KEY=${SONGKICK_API_KEY}
           --build-arg FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
+          --build-arg MAX_REQUEST_SIZE=${MAX_REQUEST_SIZE}
           -t ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest .
       - run: docker login -u ${DOCKER_USER} --password ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}
       - run: docker push ${DOCKER_REGISTRY}/${DOCKER_USER}/gigmap/gigmap-api:latest
@@ -38,6 +39,9 @@ workflows:
           context: GigMap
           requires:
             - test
+          filters:
+            branches:
+              only: master
       - deploy:
           context: GigMap
           requires:

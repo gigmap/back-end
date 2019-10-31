@@ -2,7 +2,7 @@
   "all": true,
   "include": "src",
   "exclude": [
-              "src/router.js", "bin/index.js", "src/createApp.js",
+              "**/router.js", "bin/index.js", "src/createApp.js",
               "src/helpers/createLogger.js", "src/helpers/EnvHelper.js",
               "src/services/ServiceFacade.js"
               ],

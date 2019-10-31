@@ -1,3 +1,4 @@
+const {pick} = require('lodash');
 const logger = require('../../helpers/createLogger')('RestSongkickApi');
 
 /**
@@ -13,13 +14,12 @@ class RestSongkickApi {
   }
 
   /**
-   *
    * @param username
    * @param {Object} [config]
    * @return {Promise<Object>}
    * @private
    */
-  _requestArtists(username, config = {}) {
+  _requestTrackedArtists(username, config = {}) {
     return this.client.get(`/users/${username}/artists/tracked.json`, config)
       .then((result) => {
         return result.data.resultsPage;
@@ -56,7 +56,7 @@ class RestSongkickApi {
    * @return {Promise<number | null>}
    */
   async countArtists(username) {
-    const data = await this._requestArtists(username, {
+    const data = await this._requestTrackedArtists(username, {
       params: {
         fields: 'id',
         per_page: 1
@@ -71,7 +71,7 @@ class RestSongkickApi {
    * @return {Promise<Artist[] | null>}
    */
   async listArtists(username) {
-    const data = await this._requestArtists(username, {
+    const data = await this._requestTrackedArtists(username, {
       params: {
         fields: 'id,displayName'
       }
@@ -107,6 +107,26 @@ class RestSongkickApi {
     }
 
     return data.results.event;
+  }
+
+  /**
+   * @param {string} name
+   * @return {Promise<Artist>}
+   */
+  async findArtist(name) {
+    const response = await this.client.get('/search/artists.json', {
+      params: {
+        query: name,
+        per_page: 1
+      }
+    });
+
+    const {totalEntries, results: {artist: artists}} = response.data.resultsPage;
+    if (totalEntries === 0) {
+      return null;
+    }
+
+    return pick(artists[0], 'id', 'displayName', 'uri');
   }
 }
 

@@ -6,10 +6,11 @@ const createConfig = require('../../src/createConfig');
 const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
 const TEST_VALUE = 'test';
 const DEFAULT_DAYS = -1;
+const DEFAULT_REQUEST_SIZE = '5mb';
 
 const expectConfig =
   (baseUrl = DEFAULT_SONGKICK_BASE_URL, apiKey = TEST_VALUE, frontendOrigin = '') => ({
-    gigmap: {frontendOrigin, maxTimePeriodDays: DEFAULT_DAYS},
+    gigmap: {frontendOrigin, maxTimePeriodDays: DEFAULT_DAYS, maxRequestSize: DEFAULT_REQUEST_SIZE},
     songkick: {baseUrl, apiKey}
   });
 
@@ -19,6 +20,8 @@ describe('createConfig', function () {
     process.env.SONGKICK_API_KEY = '';
     process.env.SONGKICK_BASE_URL = '';
     process.env.FRONTEND_ORIGIN = '';
+    process.env.MAX_REQUEST_SIZE = '';
+    process.env.MAX_TIME_PERIOD = '';
   };
 
   before(resetEnv);
@@ -54,12 +57,14 @@ describe('createConfig', function () {
       process.env.SONGKICK_API_KEY = 'some-key';
       process.env.FRONTEND_ORIGIN = 'https://some.com';
       process.env.MAX_TIME_PERIOD = 33;
+      process.env.MAX_REQUEST_SIZE = '33kb';
 
 
       expect(createConfig()).to.be.deep.equal({
         gigmap: {
           frontendOrigin: 'https://some.com',
-          maxTimePeriodDays: 33
+          maxTimePeriodDays: 33,
+          maxRequestSize: '33kb'
         },
         songkick: {
           baseUrl: 'some-url',

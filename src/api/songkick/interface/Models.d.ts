@@ -1,6 +1,7 @@
 export interface Artist {
     id: number;
     displayName: string;
+    uri: string;
 }
 
 export interface ConcertTime {

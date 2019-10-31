@@ -1,28 +1,32 @@
 const sinon = require('sinon');
 
+const makeHandler = (result) => (url) => {
+  if (result instanceof Map) {
+    for (const [key, value] of Array.from(result.entries())) {
+      if (key === url) {
+        return Promise.resolve({data: value});
+      }
+    }
+
+    throw new Error('AxiosStub endpoint not found');
+  }
+
+  return result;
+};
+
 /**
  * @param {*|Map<string, *>} result
  * @return {Object}
  */
 const create = (result) => ({
-  get: (url) => {
-    if (result instanceof Map) {
-      for (const [key, value] of Array.from(result.entries())) {
-        if (key === url) {
-          return Promise.resolve({data: value});
-        }
-      }
-
-      throw new Error('AxiosStub endpoint not found');
-    }
-
-    return result;
-  }
+  get: makeHandler(result),
+  post: makeHandler(result)
 });
 
 const createStubbed = (data) => {
   return {
-    get: sinon.stub().resolves({data})
+    get: sinon.stub().resolves({data}),
+    post: sinon.stub().resolves({data})
   };
 };
 

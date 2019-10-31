@@ -1,11 +1,11 @@
 {
   "name": "@gigmap/back-end",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "bin/index.js",
   "scripts": {
     "start": "node bin/index.js",
-    "dev": "NODE_ENV=development pm2 start bin/index.js --watch --no-daemon --node-args=\"-r dotenv/config\"",
+    "dev": "NODE_ENV=development pm2 start bin/index.js --watch --no-daemon --node-args=\"-r dotenv/config --inspect=127.0.0.1:9229\"",
     "test": "NODE_ENV=test nyc mocha",
     "coverage": "npm test && nyc report --reporter=text",
     "coverage-ci": "nyc report --reporter=text-lcov | coveralls",
@@ -18,34 +18,34 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/chai-as-promised": "^7.1.0",
-    "@types/express": "^4.17.0",
+    "@types/chai": "^4.2.4",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/express": "^4.17.1",
     "@types/mocha": "^5.2.7",
-    "@types/pino": "^5.8.8",
-    "@types/sinon": "^7.0.13",
+    "@types/pino": "^5.8.13",
+    "@types/sinon": "^7.5.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "coveralls": "^3.0.5",
-    "eslint": "^5.16.0",
+    "coveralls": "^3.0.7",
+    "eslint": "^6.6.0",
     "lodash": "^4.17.15",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "pm2": "^3.5.1",
-    "sinon": "^7.3.2"
+    "sinon": "^7.5.0"
   },
   "dependencies": {
     "async-optional": "^1.0.3",
     "axios": "^0.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",
     "express-validator": "^5.3.1",
-    "helmet": "^3.20.0",
+    "helmet": "^3.21.2",
     "normalize-port": "^1.0.0",
-    "pino": "^5.13.1",
-    "pino-pretty": "^3.2.0",
-    "rambda": "^2.13.0"
+    "pino": "^5.13.5",
+    "pino-pretty": "^3.2.2",
+    "rambda": "^2.14.5"
   }
 }

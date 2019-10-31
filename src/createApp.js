@@ -26,6 +26,7 @@ function createApp() {
 
   // app middleware
   app.use(helmet());
+  app.use(express.json({limit: app.locals.config.gigmap.maxRequestSize}));
   app.use(cors(EnvHelper.isProduction ? {
     origin: app.locals.config.gigmap.frontendOrigin
   } : {}));

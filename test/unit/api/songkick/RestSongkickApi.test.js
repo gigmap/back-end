@@ -7,6 +7,8 @@ const RestSongkickApi = require('../../../../src/api/songkick/RestSongkickApi');
 const TRACKED_ARTISTS_EXAMPLE = require('../../rest/routes/songkick/fixtures/TrackedArtistsExample');
 const EMPTY_CALENDAR_EXAMPLE = require('../../rest/routes/songkick/fixtures/EmptyCalendarExample');
 const CALENDAR_EXAMPLE = require('../../rest/routes/songkick/fixtures/CalendarExample');
+const EMPTY_SEARCH = require('../../rest/routes/songkick/fixtures/EmptySearchExample');
+const FULFILLED_SEARCH = require('../../rest/routes/songkick/fixtures/SearchExample');
 const USER = 'user';
 const ARTIST_ID = 123;
 
@@ -83,6 +85,24 @@ describe('RestSongkickApi', function () {
       sinon.assert.calledWithExactly(client.get,
         `/artists/${ARTIST_ID}/calendar.json`,
         {params: {min_date: '2019-02-06', max_date: '2019-02-10'}});
+    });
+  });
+
+  describe('findArtist', function () {
+    it('should return null f nothing found', async function () {
+      const api = new RestSongkickApi(ClientStub.withData(EMPTY_SEARCH));
+      expect(await api.findArtist('name'))
+        .to.be.deep.equal(null);
+    });
+
+    it('should return artist array', async function () {
+      const api = new RestSongkickApi(ClientStub.withData(FULFILLED_SEARCH));
+      expect(await api.findArtist('name'))
+        .to.be.deep.equal({
+          id: 357052,
+          displayName: '1000mods',
+          uri: 'http://www.songkick.com/artists/599905-monkey3?utm_source=55872&utm_medium=partner',
+        });
     });
   });
 });

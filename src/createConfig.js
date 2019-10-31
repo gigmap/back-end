@@ -3,7 +3,12 @@ const REQUIRED_ENV = ['SONGKICK_API_KEY', 'FRONTEND_ORIGIN'];
 const DEFAULT_SONGKICK_BASE_URL = 'https://api.songkick.com/api/3.0';
 const TEST_VALUE = 'test';
 const DEFAULT_PERIOD_DAYS = -1;
+const DEFAULT_MAX_REQUEST_SIZE = '5mb';
 
+/**
+ * @param {boolean} isProduction
+ * @return {AppConfig}
+ */
 const createConfig = (isProduction) => {
   if (isProduction) {
     for (let key of REQUIRED_ENV) {
@@ -17,7 +22,8 @@ const createConfig = (isProduction) => {
     SONGKICK_BASE_URL,
     SONGKICK_API_KEY,
     FRONTEND_ORIGIN,
-    MAX_TIME_PERIOD
+    MAX_TIME_PERIOD,
+    MAX_REQUEST_SIZE
   } = process.env;
 
   const maxTimePeriod = Number.parseInt(MAX_TIME_PERIOD);
@@ -27,7 +33,8 @@ const createConfig = (isProduction) => {
       frontendOrigin: FRONTEND_ORIGIN,
       maxTimePeriodDays: Number.isNaN(maxTimePeriod) ?
         DEFAULT_PERIOD_DAYS :
-        maxTimePeriod
+        maxTimePeriod,
+      maxRequestSize: MAX_REQUEST_SIZE || DEFAULT_MAX_REQUEST_SIZE
     },
     songkick: {
       baseUrl: SONGKICK_BASE_URL || DEFAULT_SONGKICK_BASE_URL,
@@ -39,7 +46,20 @@ const createConfig = (isProduction) => {
 module.exports = createConfig;
 
 /**
- * @typedef SongkickConfig
+ * @typedef {Object} SongkickConfig
  * @property {string} baseUrl
  * @property {string} apiKey
+ */
+
+/**
+ * @typedef {Object} GigmapConfig
+ * @property {string} frontendOrigin
+ * @property {number} maxTimePeriodDays
+ * @property {string} maxRequestSize
+ */
+
+/**
+ * @typedef {Object} AppConfig
+ * @property {GigmapConfig} gigmap
+ * @property {SongkickConfig} songkick
  */

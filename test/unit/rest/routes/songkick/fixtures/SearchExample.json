@@ -1,0 +1,26 @@
+{
+  "resultsPage": {
+    "status": "ok",
+    "results": {
+      "artist": [
+        {
+          "id": 357052,
+          "displayName": "1000mods",
+          "uri": "http://www.songkick.com/artists/599905-monkey3?utm_source=55872&utm_medium=partner",
+          "identifier": [
+            {
+              "mbid": "c542f179-b603-426c-8c0f-7788651f8cf2",
+              "href": "http://api.songkick.com/api/3.0/artists/mbid:c542f179-b603-426c-8c0f-7788651f8cf2.json",
+              "eventsHref": "http://api.songkick.com/api/3.0/artists/mbid:c542f179-b603-426c-8c0f-7788651f8cf2/calendar.json",
+              "setlistsHref": "http://api.songkick.com/api/3.0/artists/mbid:c542f179-b603-426c-8c0f-7788651f8cf2/setlists.json"
+            }
+          ],
+          "onTourUntil": "2019-10-29"
+        }
+      ]
+    },
+    "perPage": 50,
+    "page": 1,
+    "totalEntries": 1
+  }
+}

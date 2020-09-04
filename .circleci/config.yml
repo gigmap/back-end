@@ -3,13 +3,13 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:12
     steps:
       - checkout
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test -- --reporter min
-      - run: npm run coverage-ci
+      - run: yarn
+      - run: yarn lint
+      - run: yarn test --reporter min
+      - run: yarn coverage-ci
   build:
     machine: true
     steps:

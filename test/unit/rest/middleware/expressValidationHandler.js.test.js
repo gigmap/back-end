@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {describe, it} = require('mocha');
 const sinon = require('sinon');
-const {body} = require('express-validator/check');
+const {body} = require('express-validator');
 const expressValidationHandler = require('../../../../src/rest/middleware/expressValidationHandler');
 const ResponseBuilder = require('../../../lib/ResponseBuilder');
 

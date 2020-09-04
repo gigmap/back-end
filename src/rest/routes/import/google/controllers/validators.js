@@ -1,4 +1,4 @@
-const {body} = require('express-validator/check/index');
+const {body} = require('express-validator');
 
 module.exports = [
   body('username').isString().not().isEmpty(),

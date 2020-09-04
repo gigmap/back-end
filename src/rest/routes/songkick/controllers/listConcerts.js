@@ -7,6 +7,7 @@ const checkTimeInterval = require('../validation/checkTimeInterval');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');
+const CANCELLED_STATUS = 'cancelled';
 
 const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
   const {services, config} = res.app.locals;
@@ -42,16 +43,18 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
 
     const mappedArtist = mapArtist(artist);
     filteredArtists.push(mappedArtist);
-    concerts.forEach(it => {
-      if (concertsById.has(it.id)) {
-        return concertsById.get(it.id).members.push(mappedArtist);
-      }
+    concerts
+      .filter(it => it.status !== CANCELLED_STATUS)
+      .forEach(it => {
+        if (concertsById.has(it.id)) {
+          return concertsById.get(it.id).members.push(mappedArtist);
+        }
 
-      const mappedEvent = mapConcert(it);
-      mappedEvent.members.push(mappedArtist);
-      concertsById.set(it.id, mappedEvent);
-      countries.add(mappedEvent.location.country);
-    });
+        const mappedEvent = mapConcert(it);
+        mappedEvent.members.push(mappedArtist);
+        concertsById.set(it.id, mappedEvent);
+        countries.add(mappedEvent.location.country);
+      });
   }));
 
   res.status(200).json({

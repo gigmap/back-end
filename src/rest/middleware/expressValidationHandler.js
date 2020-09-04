@@ -1,5 +1,4 @@
-const {validationResult} = require('express-validator/check/index');
-const {matchedData} = require('express-validator/filter/index');
+const {validationResult, matchedData} = require('express-validator');
 const makeResponse = require('./makeResponse');
 const ErrorMessage = require('../common/ErrorMessage');
 const VALIDATION_CODE = 'VALIDATION';

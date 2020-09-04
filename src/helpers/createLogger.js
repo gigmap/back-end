@@ -2,8 +2,10 @@ const pino = require('pino');
 const EnvHelper = require('./EnvHelper');
 
 const BASIC_OPTIONS = Object.freeze({
-  useLevelLabels: true,
-  level: EnvHelper.isProduction ? 'info' : 'debug'
+  level: EnvHelper.isProduction ? 'info' : 'debug',
+  formatters: {
+    level: (level) => ({level})
+  }
 });
 
 /**

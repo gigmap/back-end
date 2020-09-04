@@ -1,4 +1,4 @@
-const {query} = require('express-validator/check/index');
+const {query} = require('express-validator');
 
 const FROM = 'from';
 const TO = 'to';

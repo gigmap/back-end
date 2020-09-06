@@ -13,6 +13,8 @@ export interface MappedConcert {
     start: string;
     location: MappedLocation;
     members: MappedArtist[];
+    interested?: boolean;
+    going?: boolean;
 }
 
 export interface MappedArtist {

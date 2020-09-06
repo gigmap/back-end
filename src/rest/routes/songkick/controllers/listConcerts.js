@@ -4,6 +4,8 @@ const mapConcert = require('./mappers/mapConcert');
 const mapArtist = require('./mappers/mapArtist');
 const mapCountry = require('./mappers/mapCountry');
 const checkTimeInterval = require('../validation/checkTimeInterval');
+const {ATTENDANCE} = require('../../../../api/songkick/Constants');
+const {makeAttendanceMap} = require('./mappers/makeAttendanceMap');
 
 const {errors: {userNotFound}} = require('../Constants');
 const logger = require('../../../../helpers/createLogger')('listConcerts');
@@ -19,10 +21,16 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
   }
 
   const songkickApi = services.getSongkickApi();
-  const artists = await songkickApi.listArtists(username);
+  const [artists, attendanceData] = await Promise.all([
+    songkickApi.listArtists(username),
+    songkickApi.getUserAttendance(username)
+  ]);
   if (artists === null) {
     return res.status(404).json(ErrorMessage.prebuilt(userNotFound));
   }
+
+  /** @type {Object<string, string>} */
+  const attendance = makeAttendanceMap(attendanceData);
 
   // todo: should be some job pool so request rate isn't insane
 
@@ -51,6 +59,11 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
         }
 
         const mappedEvent = mapConcert(it);
+        if (attendance[it.id] === ATTENDANCE.GOING) {
+          mappedEvent.going = true;
+        } else if (attendance[it.id] === ATTENDANCE.INTERESTED) {
+          mappedEvent.interested = true;
+        }
         mappedEvent.members.push(mappedArtist);
         concertsById.set(it.id, mappedEvent);
         countries.add(mappedEvent.location.country);

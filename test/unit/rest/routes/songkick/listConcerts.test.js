@@ -13,8 +13,67 @@ const EmptyCalendarExample = require('./fixtures/EmptyCalendarExample');
 const TrackedArtists = require('./fixtures/TrackedArtists');
 const Artist1Calendar = require('./fixtures/Artist1Calendar');
 const Artist2Calendar = require('./fixtures/Artist2Calendar');
+const UserAttendanceCalendar = require('./fixtures/UserAttendanceCalendar');
+const EmptyUserAttendanceCalendar = require('./fixtures/EmptyUserAttendanceCalendar');
 
 describe('listConcerts', function () {
+
+  const BASIC_EXPECTED_ANSWER = {
+    countries: [
+      {id: 'Denmark', displayName: 'Denmark'},
+      {id: 'Germany', displayName: 'Germany'}
+    ],
+    artists: [
+      {id: 'artist357052', displayName: '1000mods'},
+      {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
+    ],
+    concerts: [
+      {
+        id: 111,
+        displayName: 'Copenhell 2019',
+        uri: 'http://www.songkick.com/festivals/',
+        location: {
+          city: 'Copenhagen, Denmark',
+          lat: 55.6761,
+          lng: 12.56834,
+          country: 'Denmark'
+        },
+        start: '2019-06-19',
+        members: [
+          {id: 'artist357052', displayName: '1000mods'},
+          {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
+        ]
+      },
+      {
+        id: 333,
+        displayName: 'The Bones of J.R. Jones at Club',
+        uri: 'http://www.songkick.com/concerts/333',
+        location: {
+          city: 'Hamburg, Germany',
+          lat: 53.5583,
+          lng: 9.96765,
+          country: 'Germany'
+        },
+        start: '2019-06-21',
+        members: [
+          {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
+        ]
+      },
+      {
+        id: 555,
+        displayName: 'Neuborn Open Air Festival 2019',
+        uri: 'http://www.songkick.com/festivals/2',
+        location: {
+          city: 'Berlin, Germany',
+          lat: 49.84236,
+          lng: 8.11606,
+          country: 'Germany'
+        },
+        start: '2019-08-23',
+        members: [{id: 'artist357052', displayName: '1000mods'}]
+      }
+    ]
+  };
 
   const USER = 'xxx';
 
@@ -173,7 +232,8 @@ describe('listConcerts', function () {
     const clientData = new Map([
       [`/users/${USER}/artists/tracked.json`, TrackedArtists],
       ['/artists/357052/calendar.json', EmptyCalendarExample],
-      ['/artists/4292566/calendar.json', EmptyCalendarExample]
+      ['/artists/4292566/calendar.json', EmptyCalendarExample],
+      [`/users/${USER}/calendar.json?reason=attendance`, EmptyUserAttendanceCalendar]
     ]);
 
     const result =
@@ -186,69 +246,63 @@ describe('listConcerts', function () {
     const clientData = new Map([
       [`/users/${USER}/artists/tracked.json`, TrackedArtists],
       ['/artists/357052/calendar.json', Artist1Calendar],
-      ['/artists/4292566/calendar.json', Artist2Calendar]
+      ['/artists/4292566/calendar.json', Artist2Calendar],
+      [`/users/${USER}/calendar.json?reason=attendance`, EmptyUserAttendanceCalendar]
     ]);
 
     const result =
       await runRouter(req, res.withServices(getApiService(clientData)));
 
-    result.__stubs.checkAnswer(200, {
-      countries: [
-        {id: 'Denmark', displayName: 'Denmark'},
-        {id: 'Germany', displayName: 'Germany'}
-      ],
-      artists: [
-        {id: 'artist357052', displayName: '1000mods'},
-        {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
-      ],
+    result.__stubs.checkAnswer(200, BASIC_EXPECTED_ANSWER);
+  });
+
+  it('should filter out cancelled events', async () => {
+    const artist2Calendar = Artist2Calendar;
+    const events = artist2Calendar.resultsPage.results.event;
+    events.push({
+      ...events[1],
+      id: 77777,
+      status: 'cancelled'
+    });
+    const clientData = new Map([
+      [`/users/${USER}/artists/tracked.json`, TrackedArtists],
+      ['/artists/357052/calendar.json', Artist1Calendar],
+      ['/artists/4292566/calendar.json', artist2Calendar],
+      [`/users/${USER}/calendar.json?reason=attendance`, EmptyUserAttendanceCalendar]
+    ]);
+
+    const result =
+      await runRouter(req, res.withServices(getApiService(clientData)));
+
+    result.__stubs.checkAnswer(200, BASIC_EXPECTED_ANSWER);
+  });
+
+  it('should use interested and going user data', async () => {
+    const clientData = new Map([
+      [`/users/${USER}/artists/tracked.json`, TrackedArtists],
+      ['/artists/357052/calendar.json', Artist1Calendar],
+      ['/artists/4292566/calendar.json', Artist2Calendar],
+      [`/users/${USER}/calendar.json?reason=attendance`, UserAttendanceCalendar]
+    ]);
+
+    const result =
+      await runRouter(req, res.withServices(getApiService(clientData)));
+
+    const answer = {
+      ...BASIC_EXPECTED_ANSWER,
       concerts: [
         {
-          id: 111,
-          displayName: 'Copenhell 2019',
-          uri: 'http://www.songkick.com/festivals/',
-          location: {
-            city: 'Copenhagen, Denmark',
-            lat: 55.6761,
-            lng: 12.56834,
-            country: 'Denmark'
-          },
-          start: '2019-06-19',
-          members: [
-            {id: 'artist357052', displayName: '1000mods'},
-            {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
-          ]
+          ...BASIC_EXPECTED_ANSWER.concerts[0],
+          interested: true
         },
-
         {
-          id: 333,
-          displayName: 'The Bones of J.R. Jones at Club',
-          uri: 'http://www.songkick.com/concerts/333',
-          location: {
-            city: 'Hamburg, Germany',
-            lat: 53.5583,
-            lng: 9.96765,
-            country: 'Germany'
-          },
-          start: '2019-06-21',
-          members: [
-            {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
-          ]
+          ...BASIC_EXPECTED_ANSWER.concerts[1],
+          going: true
         },
-
-        {
-          id: 555,
-          displayName: 'Neuborn Open Air Festival 2019',
-          uri: 'http://www.songkick.com/festivals/2',
-          location: {
-            city: 'Berlin, Germany',
-            lat: 49.84236,
-            lng: 8.11606,
-            country: 'Germany'
-          },
-          start: '2019-08-23',
-          members: [{id: 'artist357052', displayName: '1000mods'}]
-        }
+        BASIC_EXPECTED_ANSWER.concerts[2]
       ]
-    });
+    };
+
+    result.__stubs.checkAnswer(200, answer);
   });
 });

@@ -38,7 +38,6 @@ class RestSongkickApi {
   }
 
   /**
-   *
    * @param artistId
    * @param config
    * @return {Promise<Object>}
@@ -127,6 +126,27 @@ class RestSongkickApi {
     }
 
     return pick(artists[0], 'id', 'displayName', 'uri');
+  }
+
+  /**
+   * @param {string} username
+   * @return {Promise<UserCalendarEntry[]>}
+   */
+  async getUserAttendance(username) {
+    const response = await this.client
+      .get(`/users/${username}/calendar.json?reason=attendance`)
+      .catch((error) => {
+        logger.error('User attendance request error: %s', error.response.status);
+        return {data: {resultsPage: {status: 'error'}}};
+      });
+
+    const {totalEntries, status, results} = response.data.resultsPage;
+    // TODO: check status in every other method
+    if (totalEntries === 0 || status !== 'ok') {
+      return [];
+    }
+
+    return results.calendarEntry;
   }
 }
 

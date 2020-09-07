@@ -42,7 +42,8 @@ describe('listConcerts', function () {
         members: [
           {id: 'artist357052', displayName: '1000mods'},
           {id: 'artist4292566', displayName: 'The Bones of J.R. Jones'}
-        ]
+        ],
+        isFestival: true
       },
       {
         id: 333,

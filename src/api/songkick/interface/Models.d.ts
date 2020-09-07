@@ -34,6 +34,7 @@ export interface ConcertVenue {
 export interface Concert {
   id: number;
   status: string;
+  type: string;
   displayName: string;
   uri: string;
   start: ConcertTime;

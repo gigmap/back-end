@@ -15,6 +15,8 @@ export interface MappedConcert {
     members: MappedArtist[];
     interested?: boolean;
     going?: boolean;
+    postponed?: boolean;
+    isFestival?: boolean;
 }
 
 export interface MappedArtist {

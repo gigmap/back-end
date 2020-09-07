@@ -4,12 +4,11 @@ const mapConcert = require('./mappers/mapConcert');
 const mapArtist = require('./mappers/mapArtist');
 const mapCountry = require('./mappers/mapCountry');
 const checkTimeInterval = require('../validation/checkTimeInterval');
-const {ATTENDANCE} = require('../../../../api/songkick/Constants');
+const {CONCERT_STATUS} = require('../../../../api/songkick/Constants');
 const {makeAttendanceMap} = require('./mappers/makeAttendanceMap');
 
 const {errors: {userNotFound}} = require('../Constants');
-const logger = require('../../../../helpers/createLogger')('listConcerts');
-const CANCELLED_STATUS = 'cancelled';
+// const logger = require('../../../../helpers/createLogger')('listConcerts');
 
 const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
   const {services, config} = res.app.locals;
@@ -52,18 +51,13 @@ const listConcerts = () => makeAsyncMiddleware(async (req, res) => {
     const mappedArtist = mapArtist(artist);
     filteredArtists.push(mappedArtist);
     concerts
-      .filter(it => it.status !== CANCELLED_STATUS)
+      .filter(it => it.status !== CONCERT_STATUS.CANCELLED)
       .forEach(it => {
         if (concertsById.has(it.id)) {
           return concertsById.get(it.id).members.push(mappedArtist);
         }
 
-        const mappedEvent = mapConcert(it);
-        if (attendance[it.id] === ATTENDANCE.GOING) {
-          mappedEvent.going = true;
-        } else if (attendance[it.id] === ATTENDANCE.INTERESTED) {
-          mappedEvent.interested = true;
-        }
+        const mappedEvent = mapConcert(it, attendance[it.id]);
         mappedEvent.members.push(mappedArtist);
         concertsById.set(it.id, mappedEvent);
         countries.add(mappedEvent.location.country);
